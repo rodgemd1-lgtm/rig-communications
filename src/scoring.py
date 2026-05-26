@@ -74,6 +74,12 @@ class CommunicationScore:
     # Gates
     banned_phrases_found: List[str] = field(default_factory=list)
     reactance_risk: float = 0.0
+    predicted_success: float = 0.0
+    swarm_consensus: float = 0.0
+    hook_rupture: float = 0.0
+    anti_generic_force_entropy: float = 0.0
+    send_risk_over_explanation: float = 0.0
+    send_risk_manipulation: float = 0.0
 
     def comm_raw_score(self) -> float:
         """Formula 1: Communication Raw Score (Universal)"""
