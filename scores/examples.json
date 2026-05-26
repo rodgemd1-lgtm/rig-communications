@@ -1,0 +1,29 @@
+{
+  "examples": [
+    {
+      "name": "Sarah Chen Cold Email",
+      "date": "2026-05-26",
+      "channel": "cold-email",
+      "deviation": "+6σ",
+      "scores": {
+        "comm_raw_score": 0.860,
+        "email_voltage_score": 0.846,
+        "wound_precision": 0.85,
+        "mirror_accuracy": 0.90,
+        "autonomy_preservation": 0.85
+      },
+      "gates": {
+        "all_passed": true,
+        "banned_phrases": 0,
+        "autonomy_pass": true,
+        "wound_pass": true
+      },
+      "swarm": {
+        "predicted_success": 0.85,
+        "swarm_consensus": 0.88,
+        "trust_decay": false
+      },
+      "draft": "Subject: The 40% number is actually higher than you think\n\nSarah —\n\nYour team is spending 40% of engineering hours on architecture maintenance. At 200 engineers, that's 80 full-time equivalents not shipping product.\n\nThe real number is probably worse. Architecture tax scales nonlinearly with service count — once you cross ~25 microservices, the coupling cost per service starts compounding. Every new endpoint requires coordination across 4-7 services. That's not maintenance. That's an architecture actively hostile to velocity.\n\nIf this is intentional — if you're betting the next round makes it manageable — ignore this. But if the 40% is creeping toward 50%, the math gets nonlinear fast.\n\nWe rebuilt the service boundary layer for a $50M SaaS company last year. Their feature velocity doubled in 90 days. Same team. Same product. Different architecture.\n\nThe intervention only works if the CTO has authority to halt feature work for 6-8 weeks to restructure the boundaries. If that's not your situation, no need to respond.\n\nI have a hypothesis about which 3 services are causing 80% of the coupling. I'd need 15 minutes with the dependency graph to confirm it. The number is usually worse than the CTO thinks.\n\n— Mike"
+    }
+  ]
+}

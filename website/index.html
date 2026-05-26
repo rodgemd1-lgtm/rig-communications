@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>RIG Communications V10 — Don't write emails. Engineer dopamine.</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #0a0a0a; color: #e8e4dd; line-height: 1.5; overflow-x: hidden; }
+  .hero { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; padding: 120px 40px 80px; position: relative; }
+  .hero::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(ellipse at 30% 20%, rgba(180, 140, 100, 0.08) 0%, transparent 60%), radial-gradient(ellipse at 70% 80%, rgba(120, 90, 200, 0.06) 0%, transparent 60%); z-index: 0; }
+  .hero-content { max-width: 880px; margin: 0 auto; position: relative; z-index: 1; }
+  .eyebrow { font-size: 14px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.15em; color: #a09070; margin-bottom: 32px; }
+  h1 { font-size: clamp(48px, 8vw, 96px); line-height: 0.92; font-weight: 800; letter-spacing: -0.03em; margin-bottom: 32px; color: #f7f5ef; }
+  h1 span { color: #c4a870; }
+  .hero-sub { font-size: 20px; color: #8a8070; max-width: 600px; margin-bottom: 56px; line-height: 1.6; }
+  .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; margin-bottom: 64px; }
+  .stat { border-top: 2px solid #2a2520; padding-top: 20px; }
+  .stat-number { font-size: 36px; font-weight: 800; color: #f7f5ef; display: block; }
+  .stat-label { font-size: 13px; color: #6a6050; text-transform: uppercase; letter-spacing: 0.1em; margin-top: 6px; display: block; }
+  .cta { display: inline-flex; align-items: center; gap: 12px; background: #c4a870; color: #0a0a0a; font-weight: 700; font-size: 16px; padding: 16px 32px; border-radius: 8px; text-decoration: none; transition: background 0.2s; }
+  .cta:hover { background: #d4b880; }
+  .cta-secondary { display: inline-flex; align-items: center; gap: 8px; color: #a09070; font-weight: 600; font-size: 15px; margin-left: 20px; text-decoration: none; }
+  .divider { width: 100%; height: 1px; background: #1a1815; }
+
+  section { padding: 100px 40px; max-width: 880px; margin: 0 auto; }
+  h2 { font-size: 40px; font-weight: 800; margin-bottom: 20px; color: #f7f5ef; letter-spacing: -0.02em; }
+  h3 { font-size: 24px; font-weight: 700; margin: 40px 0 16px; color: #c4a870; }
+  p { color: #8a8070; font-size: 17px; line-height: 1.7; margin-bottom: 24px; }
+  .phase { background: #141210; border-left: 3px solid #c4a870; padding: 24px 28px; margin-bottom: 16px; border-radius: 0 8px 8px 0; }
+  .phase-title { font-weight: 800; font-size: 20px; color: #f7f5ef; margin-bottom: 8px; }
+  .phase-desc { color: #8a8070; font-size: 15px; }
+
+  .formula-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
+  .formula-card { background: #141210; border-radius: 10px; padding: 28px; border: 1px solid #1a1815; }
+  .formula-name { font-weight: 800; font-size: 16px; color: #c4a870; margin-bottom: 12px; }
+  .formula-eq { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 13px; color: #e8e4dd; line-height: 1.6; }
+  .formula-gate { margin-top: 12px; font-size: 13px; color: #6a6050; font-weight: 600; }
+
+  .research-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin: 32px 0; }
+  .research-card { background: #141210; border-radius: 8px; padding: 24px; border: 1px solid #1a1815; }
+  .research-evid { font-size: 32px; font-weight: 800; color: #c4a870; display: block; }
+  .research-label { font-size: 13px; color: #8a8070; margin-top: 8px; display: block; line-height: 1.4; }
+
+  .gate-flow { font-family: 'SF Mono', 'Fira Code', monospace; background: #141210; padding: 32px; border-radius: 10px; font-size: 13px; color: #8a8070; line-height: 1.8; overflow-x: auto; }
+  .gate-flow .fail { color: #c46050; }
+  .gate-flow .pass { color: #60a060; }
+  .gate-flow .warn { color: #c4a040; }
+
+  footer { text-align: center; padding: 60px 40px; color: #4a4030; font-size: 14px; border-top: 1px solid #1a1815; }
+
+  @media (max-width: 768px) {
+    .hero { padding: 80px 24px 60px; }
+    section { padding: 60px 24px; }
+    .stats { grid-template-columns: repeat(2, 1fr); }
+    .formula-grid { grid-template-columns: 1fr; }
+    .research-grid { grid-template-columns: 1fr; }
+    h1 { font-size: 42px; }
+    h2 { font-size: 30px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-content">
+    <div class="eyebrow">RIG Communications V10</div>
+    <h1>Don't write emails.<br><span>Engineer dopamine.</span></h1>
+    <p class="hero-sub">Every communication either advances a relationship, builds authority, or wastes two people's time. There is no neutral. This protocol makes your words produce a measurable Reward Prediction Error — literally — validated by 102 fMRI studies.</p>
+    <div class="stats">
+      <div class="stat"><span class="stat-number">8</span><span class="stat-label">Scoring Formulas</span></div>
+      <div class="stat"><span class="stat-number">50</span><span class="stat-label">Deviation Questions</span></div>
+      <div class="stat"><span class="stat-number">24</span><span class="stat-label">Hard Gates</span></div>
+      <div class="stat"><span class="stat-number">+22σ</span><span class="stat-label">Target Deviation</span></div>
+    </div>
+    <a href="https://github.com/rodgemd1-lgtm/rig-communications" class="cta">View on GitHub</a>
+    <a href="#how-it-works" class="cta-secondary">How it works ↓</a>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<section id="how-it-works">
+  <h2>The 5-Phase Dopamine Engine</h2>
+  <p>The median (0σ) is what ChatGPT produces when you say "write a professional email." RIG communications operate at +5σ to +22σ above that baseline by producing five consecutive expectation violations that stack into a compound neural response.</p>
+
+  <div class="phase">
+    <div class="phase-title">Phase 1: WOUND</div>
+    <div class="phase-desc">Name the specific, expensive pattern they're living inside but haven't articulated. Not "many companies struggle" — but the exact pattern costing THIS recipient money. Gate: precision ≥ 0.60.</div>
+  </div>
+  <div class="phase">
+    <div class="phase-title">Phase 2: MIRROR</div>
+    <div class="phase-desc">Reflect their reality with enough precision they feel <em>seen</em>. Not handled. Not diagnosed. The test: they should think "How did they know that?" — not "That's a nice thing to say."</div>
+  </div>
+  <div class="phase">
+    <div class="phase-title">Phase 3: AUTONOMY</div>
+    <div class="phase-desc">Explicitly preserve their freedom to say no. 10 phrases are banned — "just checking in," "following up," "would love to chat" — because 53 peer-reviewed studies confirm they trigger psychological reactance (r ≈ .20). Gate: ≥ 0.70.</div>
+  </div>
+  <div class="phase">
+    <div class="phase-title">Phase 4: QUALIFICATION</div>
+    <div class="phase-desc">Flip the frame. You are evaluating THEM, not begging for attention. Name who this is NOT for. Force an identity choice. They need to earn the next step.</div>
+  </div>
+  <div class="phase">
+    <div class="phase-title">Phase 5: OPEN LOOP</div>
+    <div class="phase-desc">End with unresolved tension — a diagnostic question, a cost-of-inaction frame. Never a generic CTA. The Zeigarnik effect does the work: incomplete tasks create persistent cognitive tension.</div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<section>
+  <h2>8 Scoring Formulas</h2>
+  <p>Every communication is scored across multiple dimensions. Nothing ships below threshold.</p>
+
+  <div class="formula-grid">
+    <div class="formula-card">
+      <div class="formula-name">CommRawScore (Universal)</div>
+      <div class="formula-eq">0.14·WoundPrecision + 0.12·MirrorAccuracy<br>+ 0.11·Autonomy + 0.10·Qualification<br>+ 0.09·Specificity + 0.09·OpenLoop<br>+ 0.08·RPE + 0.08·RealityAnchor<br>+ 0.07·AntiGeneric + 0.06·Tone<br>+ 0.04·Memory + 0.02·Ethics</div>
+      <div class="formula-gate">Gate: ≥ 0.65</div>
+    </div>
+    <div class="formula-card">
+      <div class="formula-name">BDF30 (Bipolar Deviation)</div>
+      <div class="formula-eq">0.25·SemanticInversion<br>+ 0.20·ProofDensity<br>+ 0.15·EnemySpecificity<br>+ 0.15·CatchphraseVoltage<br>+ 0.10·StructuralNovelty<br>+ 0.10·NegativeSpaceWeight<br>+ 0.05·IdentityForce</div>
+      <div class="formula-gate">Target: MAD-Z > 8.0σ | Aspiration: +22σ</div>
+    </div>
+    <div class="formula-card">
+      <div class="formula-name">CraftCoefficient</div>
+      <div class="formula-eq">max(<br>  EminemDensity<br>  HemingwayCompression<br>  DidionCadence<br>  McCarthyRhythm<br>  WallaceRecursion<br>)</div>
+      <div class="formula-gate">Gate: ≥ 0.85</div>
+    </div>
+    <div class="formula-card">
+      <div class="formula-name">Reward Prediction Error</div>
+      <div class="formula-eq">δₜ = rₜ + γ·V(sₜ₊₁) − V(sₜ)<br><br>rₜ = value delivered<br>V(sₜ) = expected value (0.35 baseline)<br>δₜ > 0 = dopamine signal</div>
+      <div class="formula-gate">Validated: 10/10 evidence (102 fMRI studies, N=2,316)</div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<section>
+  <h2>Peer-Reviewed Foundation</h2>
+  <p>Every gate is grounded in published research from Consensus.app (170M+ papers).</p>
+  <div class="research-grid">
+    <div class="research-card">
+      <span class="research-evid">10/10</span>
+      <span class="research-label">Reward Prediction Error<br>102 fMRI studies, N=2,316</span>
+    </div>
+    <div class="research-card">
+      <span class="research-evid">9/10</span>
+      <span class="research-label">Unsigned PE → Memory<br>Both poles ship — |δ| enhances recall</span>
+    </div>
+    <div class="research-card">
+      <span class="research-evid">8/10</span>
+      <span class="research-label">Bayesian Surprise<br>72% gaze shifts to high-surprise regions</span>
+    </div>
+    <div class="research-card">
+      <span class="research-evid">8/10</span>
+      <span class="research-label">Shannon Entropy<br>AntiGenericForce grounded in information theory</span>
+    </div>
+    <div class="research-card">
+      <span class="research-evid">8/10</span>
+      <span class="research-label">Reactance Theory<br>k=53 studies — banned phrases validated</span>
+    </div>
+    <div class="research-card">
+      <span class="research-evid">9/10</span>
+      <span class="research-label">Distributed Practice<br>150% recall improvement — optimal ISI = 3-6 days</span>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<section>
+  <h2>24 Hard Gates</h2>
+  <p>Nothing ships without passing every gate. Here's what enforcement looks like:</p>
+  <div class="gate-flow">
+<span class="fail">BLOCK</span>  WoundPhase == missing          "No wound identified"
+<span class="fail">BLOCK</span>  MirrorPhase == missing         "No mirror — recipient won't feel understood"
+<span class="fail">BLOCK</span>  AutonomyPreservation < 0.70   "Chasing detected"
+<span class="fail">BLOCK</span>  BannedPhrase detected          "Generic phrase: [phrase]"
+<span class="fail">BLOCK</span>  WoundPrecision < 0.60          "Wound is generic"
+<span class="fail">BLOCK</span>  SpecificityDensity < 0.50      "Too vague"
+<span class="fail">BLOCK</span>  CommRawScore < 0.65            "Below doctrine threshold"
+<span class="fail">BLOCK</span>  CFAS < 82                      "Below ship threshold"
+<span class="fail">BLOCK</span>  AntiGenericForce < 80          "Positioning interchangeable"
+<span class="fail">BLOCK</span>  IdentityForce < 75             "Does not feel like RIG"
+<span class="fail">BLOCK</span>  BDF30 < 8.0                    "Did not reach 8σ deviation"
+<span class="fail">BLOCK</span>  PredictedSuccess < 0.82        "Predicted success too low"
+<span class="fail">BLOCK</span>  SwarmConsensus < 0.65           "Swarm disagreement too high"
+<span class="fail">BLOCK</span>  HookRupture < 0.70             "Hook won't stop the scroll"
+<span class="fail">BLOCK</span>  EthicalRestraint < 0.70        "Manipulation risk detected"
+<span class="warn">WARN</span>   SendRisk.overExplanation > 0.30 "Over-explaining. Cut 40%."
+<span class="fail">BLOCK</span>  ReactanceRisk > 0.20           "Autonomy threat exceeded"
+<span class="pass">PASS</span>   All gates clear                 "SHIP IT."
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<section>
+  <h2>What V10 Becomes</h2>
+  <p>V10 is the protocol. The next phases build the autonomous system around it:</p>
+
+  <div class="phase">
+    <div class="phase-title">V11 → Autonomous Signal Detection</div>
+    <div class="phase-desc">7 signal-layer agents running continuously: Orthodoxy Hardening, Wound Frequency, Vocabulary Drift, Villain Emergence, Proof Gaps, Format Exhaustion, Adjacent Collision. Ideas sourced from 20 GitHub repos including STORM (28.2k stars) and Alibaba DeepResearch.</div>
+  </div>
+  <div class="phase">
+    <div class="phase-title">V12 → 6-Round Idea Tournament</div>
+    <div class="phase-desc">50 raw angles → 20 IDP-scored → 8 adversarial-tested → 4 research-validated → 1 ensemble-drafted. CrewAI + LangGraph orchestrated. Red Team vs Blue Team debate architecture.</div>
+  </div>
+  <div class="phase">
+    <div class="phase-title">V13 → Ensemble Writer</div>
+    <div class="phase-desc">5 archetypes × multiple angles = parallel draft generation. EminemDensity, HemingwayCompression, DidionCadence, McCarthyRhythm, WallaceRecursion. Max BDF30 wins. Only swarm the winner.</div>
+  </div>
+  <div class="phase">
+    <div class="phase-title">V14 → Self-Calibrating Brier Loop</div>
+    <div class="phase-desc">Every shipped artifact recalibrates the formulas. Personas that mis-predict get down-weighted. The formulas get smarter with every communication. Compounding intelligence layer.</div>
+  </div>
+  <div class="phase">
+    <div class="phase-title">V15 → Studio-Grade Pipeline</div>
+    <div class="phase-desc">Signal → Idea → Research → Draft → Score → Swarm → Ship → Learn. Zero human bottleneck except final approval gate. Institutional memory compounds across every artifact.</div>
+  </div>
+</section>
+
+<footer>
+  RIG Communications V10 · Built by Mike Rodgers · 2026<br>
+  Protocol grounded in 8 peer-reviewed findings · 8 scoring formulas · 50 deviation questions · 24 hard gates
+</footer>
+
+</body>
+</html>
