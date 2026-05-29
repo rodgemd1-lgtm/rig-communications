@@ -1,0 +1,43 @@
+name: CI
+
+on:
+  push:
+    branches: ["**"]
+  pull_request:
+    branches: ["**"]
+
+permissions:
+  contents: read
+
+jobs:
+  smoke:
+    name: Smoke Test — All Engines
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install pytest
+        run: pip install pytest
+
+      - name: CLI smoke (deterministic, exit 0 = all pass)
+        run: python3 src/cli.py smoke
+        working-directory: ${{ github.workspace }}
+
+      - name: pytest (34 deterministic tests)
+        run: python3 -m pytest tests/ -v
+        working-directory: ${{ github.workspace }}
+
+      - name: Individual engine proofs
+        run: |
+          cd src
+          python3 scoring.py
+          python3 gates.py
+          python3 formulas.py
+          python3 swarm.py
+        working-directory: ${{ github.workspace }}
