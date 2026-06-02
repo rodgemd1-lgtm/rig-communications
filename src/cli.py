@@ -3,9 +3,8 @@ import sys
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
-from rig_comm.gates import *  # noqa: F401,F403
-import rig_comm.gates as _gates
+from rig_comm.cli import main
 
 
 if __name__ == "__main__":
-    _gates._test_gates()
+    raise SystemExit(main())
