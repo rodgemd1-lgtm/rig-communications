@@ -1,12 +1,12 @@
 ---
 name: rig-communications
 description: RIG Communication Protocol V10 — the complete executable communication engine. Cold email, LinkedIn, reply, proposal, Slack, DM. Wound→Mirror→Autonomy→Qualification→Open Loop protocol, 8 scoring formulas, 50 deviation-engine questions, 40 GitHub signal repos, Consensus-validated formulas, Prediction Swarm, Tournament Architecture, GateEngine, IDEATournament, FormulaRegistry. Python engines fully implemented. Peer-reviewed neuroscience-backed. V10→V15 roadmap with near-term and long-term specs.
-version: 10.0.0
+version: 11.0.0
 author: RIG / Mike Rodgers
 license: MIT
 ---
 
-# RIG Communication Protocol V10
+# RIG Communication Protocol V11
 
 **The complete executable communication engine.** Every communication either advances a relationship, builds authority, or wastes two people's time. There is no neutral. This protocol makes your written communication produce a measurable dopamine signal in the recipient's brain — literally.
 
@@ -28,13 +28,16 @@ Each phase generates a separate expectation violation. Five consecutive violatio
 
 | Engine | File | Status |
 |--------|------|--------|
-| **Scoring Engine** | `src/scoring.py` | ✅ 8 formulas, 8 persona swarm, Brier tracking |
-| **Gate Engine** | `src/gates.py` | ✅ 24 gates, entropy ratio, reactance risk, banned phrase scanner |
-| **Formula Registry** | `src/formulas.py` | ✅ All 8 formulas, IDP with 8 sub-components, MemoryCompoundingScore |
-| **Tournament** | `src/tournament.py` | ✅ 6-round pipeline, SignalCards→AngleCards→Winner |
+| **Package API** | `rig_comm/` | ✅ `evaluate()`, doctrine checks, AgentForge runner, integrations |
+| **Scoring Engine** | `src/scoring.py` | ✅ Compatibility shim to `rig_comm.scoring` |
+| **Gate Engine** | `src/gates.py` | ✅ Compatibility shim to `rig_comm.gates` |
+| **Formula Registry** | `src/formulas.py` | ✅ Compatibility shim to `rig_comm.formulas` |
+| **Tournament** | `src/tournament.py` | ✅ Compatibility shim to `rig_comm.tournament` |
 
-Run tests:
+Run core checks:
 ```bash
+rig evaluate "Your team is losing 40% engineering time to architecture tax. If this isn't useful, ignore this."
+rig doctrine-check --artifact templates/cold-email.md
 python3 src/scoring.py     # Sarah Chen cold email: CommRawScore 0.860
 python3 src/gates.py       # All 24 gates: 7/7 categories pass on clean text
 python3 src/formulas.py    # IDP=0.798 (Strong), all formula outputs verified
