@@ -44,6 +44,16 @@ python3 src/formulas.py    # IDP=0.798 (Strong), all formula outputs verified
 python3 src/tournament.py  # 50→20→8→4→1, winner selected, 20-draft ensemble
 ```
 
+**First smoke command** (all engines in one call, exit 0 = all pass):
+```bash
+python3 src/cli.py smoke
+```
+
+**Full pytest suite** (34 deterministic tests):
+```bash
+python3 -m pytest tests/ -v
+```
+
 ---
 
 ## Peer-Reviewed Foundation
@@ -150,10 +160,18 @@ Sync to fleet: `rsync -av ~/.hermes/skills/rig-communication-protocol/ node:path
 
 ```bash
 cd rig-communications
+
+# One-shot smoke (all 4 engines, exit 0 = all pass)
+python3 src/cli.py smoke
+
+# Full pytest suite (34 deterministic tests)
+python3 -m pytest tests/ -v
+
+# Individual engines
 python3 src/scoring.py && python3 src/gates.py && python3 src/formulas.py && python3 src/tournament.py
 ```
 
-All four engines should output passing test results.
+All engines should output passing test results.
 
 ---
 
