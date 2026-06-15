@@ -5,3 +5,12 @@ __pycache__/
 .env
 *.db
 *.sqlite
+node_modules/
+.next/
+dist/
+build/
+.venv/
+venv/
+*.log
+.turbo/
+.cache/
